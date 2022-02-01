@@ -5,7 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.care.member.memberDTO.MemberDTO;
 import com.care.member.memberService.MemberService;
@@ -37,4 +38,18 @@ public class MemberController {
 		ms.register(dto);
 		return "user/profilePhoto";
 	}
+	
+	@PostMapping("user/profileUpload")
+	public String profileUpload(MultipartHttpServletRequest mul) {
+		String id = mul.getParameter("id");
+		
+		System.out.println("service : " + mul.getParameter("id"));
+		MultipartFile file = mul.getFile("imageFileName");
+		System.out.println("service : " + file.getOriginalFilename());
+	
+		ms.profileUpload(mul);
+		
+		return "redirect:/loginPopup";
+	}
+	
 }
