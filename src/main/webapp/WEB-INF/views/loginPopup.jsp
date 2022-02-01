@@ -9,14 +9,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>로그인 창입니다.</h1>
+
 <div align="center">
-	<form action="">
-		<input type="text" name="userId" placeholder="input_id"> <br>
-		<input type="password" name="userPw" placeholder="input_pw"> <br>
-		<input type="submit" value="login">
-		<button type="button" onclick="location.href='<%=request.getContextPath()%>/user/registerForm'">회원가입</button>
-	</form>
+	<c:if test="${userId == null }">
+	<h1>로그인 창입니다.</h1>
+		<form action="${contextPath }/user/loginChk" method="post">
+			<input type="text" name="userId" placeholder="input_id"> <br>
+			<input type="password" name="userPw" placeholder="input_pw"> <br>
+			<input type="submit" value="login">
+			<button type="button" onclick="location.href='<%=request.getContextPath()%>/user/registerForm'">회원가입</button>
+		</form>
+	</c:if>
+	<c:if test="${userId != null }">
+	<h1>마이 페이지 입니다</h1>
+		<input type="button" onclick="location.href='<%=request.getContextPath()%>/user/logout'" value="logout">
+	</c:if>
 </div>
 
 </body>

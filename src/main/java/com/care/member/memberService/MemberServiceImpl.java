@@ -4,6 +4,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,6 +59,27 @@ public class MemberServiceImpl implements MemberService{
 	
  		
 		mapper.profileUpload(dto);
+	}
+
+	@Override
+	public MemberDTO getUserData(String id) {
+		
+		return mapper.getUserData(id);
+	}
+
+	@Override
+	public int loginChk(String userId, String userPw) {
+		MemberDTO dto = mapper.getUserData(userId);
+		if(dto != null) {
+			if(dto.getPw().equals(userPw)) {
+				return 1; //비밀 번호 승인
+			}else {
+				return 0; //비밀 번호가 맞지 않음
+			}
+		}else {
+			return 2; //아이디 없음
+		}
+		//이렇게 번호를 부여한 이유는 메시지를 주기 위한 용도 메시지를 주게 되면 주석은 없애주겠습니다.
 	}
 
 

@@ -1,10 +1,15 @@
 package com.care.member.memberController;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -43,11 +48,55 @@ public class MemberController {
 	public String profileUpload(MultipartHttpServletRequest mul) {
 		String id = mul.getParameter("id");
 		
-		System.out.println("service : " + mul.getParameter("id"));
+		System.out.println("controller : " + mul.getParameter("id"));
 		MultipartFile file = mul.getFile("imageFileName");
-		System.out.println("service : " + file.getOriginalFilename());
+		System.out.println("controller : " + file.getOriginalFilename()); 
+		//상단의 코드는 디버깅을 위한 작업입니다. 
+		
 	
 		ms.profileUpload(mul);
+		
+		return "redirect:/loginPopup";
+	}
+	
+	@GetMapping(value = "user/idChk",produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String idChk(@RequestParam("id") String id) {
+		System.out.println("idChk : " + id);
+		MemberDTO dto = ms.getUserData(id);
+		if(dto != null) {
+			return "{\"result\" : 1}";
+		}
+		
+		return "{\"result\":0}";
+	}
+	
+	@PostMapping("user/loginChk")
+	public String loginChk(Model model,
+							@RequestParam("userId") String userId, 
+								@RequestParam("userPw") String userPw) {
+		int loginFun = ms.loginChk(userId, userPw);
+		
+		if(loginFun == 1) {
+			model.addAttribute("userId",userId);
+			return "redirect:loginSuccess";
+		}
+		
+		return "redirect:loginPopup";
+	}
+	
+	@GetMapping("user/loginSuccess")
+	public String loginSuccess(HttpSession session,
+								@RequestParam("userId") String id) {
+		session.setAttribute("userId", id);
+
+		
+		return "redirect:/loginPopup";
+	}
+	
+	@GetMapping("user/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
 		
 		return "redirect:/loginPopup";
 	}

@@ -10,15 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="address" column="address"/>
 		<result property="imageFileName" column="image_file_name"/>
 	</resultMap>
+	
+	<select id="getUserData" resultMap="member">
+		select * from userTable where id = #{id}
+	</select>
+	
 
 	<insert id="insertUser">
 		insert into userTable values(#{id}, #{pw}, #{email}, #{address}, #{imageFileName})
 	</insert>
-	
-	
-	<select id="getUserData">
-		select * from userTable where id = ${id}
-	</select>
 	
 	<update id="profileUpload">
 		update userTable set image_file_name=#{imageFileName} where id=#{id}

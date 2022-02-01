@@ -45,6 +45,26 @@ function register() {
 	
 	
 }
+
+function idChk() {
+	$.ajax({
+		url : "idChk",
+		type : "GET",
+		datatype : "json",
+		data : { "id" : $("#id").val() },
+		success : function(data){
+			console.log(data.result)
+			if(data.result == 1) {
+				$("#idChk").css('color', 'red')
+				$("#idChk").text("중복된 아이디 입니다")
+			}else if(data.result == 0) {
+				$("#idChk").attr("value", "Y")
+				$("#idChk").css('color','blue')
+				$("#idChk").text("사용 가능한 아이디 입니다")
+			}
+		}
+	})
+}
 </script>
 
 <meta charset="UTF-8">
@@ -54,7 +74,11 @@ function register() {
 <h1>회원 가입 페이지 입니다.</h1>
 
 	<form id="fo" action="${contextPath }/user/register" method="post">
-		<input type="text" name="id" placeholder="가입 할 아이디 "> <br>
+		<input type="text" name="id" id="id" placeholder="가입 할 아이디 "> 
+		<input type="button" onclick="idChk()" value="아이디 중복 체크"><br>
+		<span id="idChk"></span>
+		 <br>
+		
 		<input type="password" name="pw" placeholder="가입 할 비밀번호"> <br>
 		<input type="text" id="email" name="email" placeholder="가입 할 이메일">
 		@
