@@ -22,6 +22,7 @@
 	</c:if>
 	<c:if test="${userId != null }">
 	<h1>마이 페이지 입니다</h1>
+	<!-- 마이페이지를 다른 곳에서 호출하는 것이 아닌 로그인 영역에서 마이페이지 기능까지 사용할 수 있도록 만들어줌 -->
 		<input type="button" onclick="location.href='<%=request.getContextPath()%>/user/logout'" value="logout">
 	</c:if>
 </div>

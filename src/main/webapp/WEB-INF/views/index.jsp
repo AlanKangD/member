@@ -15,7 +15,20 @@ function loginPOPUP(){
 </head>
 <body>
 	<h1>메인 페이지 입니다.</h1>
-<a href="${contextPath }/member/loginForm">로그인 하기</a>
-<input type="button" value="로그인 창" onclick="loginPOPUP()">
+	<div align="left">
+	<c:choose>
+		<c:when test="${userId == null }">
+			<input type="button" value="로그인 창" onclick="loginPOPUP()">	
+		</c:when>
+		<c:otherwise>
+			<input type="button" value="마이페이지 창" onclick="loginPOPUP()">	
+		</c:otherwise>
+	</c:choose>
+	
+		
+		
+		
+	</div>
+		
 </body>
 </html>
